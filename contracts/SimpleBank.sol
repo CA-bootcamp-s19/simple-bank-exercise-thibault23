@@ -18,13 +18,13 @@ contract SimpleBank {
 
     //
 
-   
+
 
     /* Fill in the keyword. Hint: We want to protect our users balance from other contracts*/
 
     mapping (address => uint) private balances;
 
-   
+
 
     /* Fill in the keyword. We want to create a getter function and allow contracts to be able to see if a user is enrolled.  */
 
@@ -34,7 +34,7 @@ contract SimpleBank {
 
     address public owner;
 
-   
+
 
     //
 
@@ -42,21 +42,21 @@ contract SimpleBank {
 
     //
 
-   
+
 
     /* Add an argument for this event, an accountAddress */
 
-    event LogEnrolled(address _accountAddress);
+    event LogEnrolled(address accountAddress);
 
     /* Add 2 arguments for this event, an accountAddress and an amount */
 
-    event LogDepositMade(address _accountAddress, uint _amount);
+    event LogDepositMade(address accountAddress, uint amount);
 
     /* Create an event called LogWithdrawal */
 
     /* Add 3 arguments for this event, an accountAddress, withdrawAmount and a newBalance */
 
-    event LogWithdrawal(address _accountAddress, uint _withdrawAmount, uint _newBalance);
+    event LogWithdrawal(address accountAddress, uint withdrawAmount, uint newBalance);
 
     //
 
@@ -130,7 +130,7 @@ contract SimpleBank {
 
     // Use the appropriate global variables to get the transaction sender and value
 
-    // Emit the appropriate event   
+    // Emit the appropriate event
 
     // Users should be enrolled before they can make deposits
 
@@ -148,7 +148,7 @@ contract SimpleBank {
 
           return balances[msg.sender];
 
-         
+
 
     }
 
@@ -160,17 +160,15 @@ contract SimpleBank {
 
     /// @return The balance remaining for the user
 
-    // Emit the appropriate event   
+    // Emit the appropriate event
 
-    function withdraw(address user, uint withdrawAmount) public returns (uint) {
+    function withdraw(uint withdrawAmount) public returns (uint) {
 
-        require(balances[msg.sender] <=  withdrawAmount, "not enough money in user account");
+        require(balances[msg.sender] >=  withdrawAmount, "not enough money in user account");
 
         require(enrolled[msg.sender] == true, "you don't have a bank account");
 
         balances[msg.sender] -= withdrawAmount;
-
-        balances[user] += withdrawAmount;
 
         emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
 
